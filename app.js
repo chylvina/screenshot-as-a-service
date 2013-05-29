@@ -3,9 +3,10 @@
  */
 var config = require('config');
 var express = require('express');
-var RasterizerService = require('./lib/rasterizerService');
-var FileCleanerService = require('./lib/fileCleanerService');
+var RasterizerService = require('./modules/phantomservice');
+var app = express();
 
+/// ------ all environments
 process.on('uncaughtException', function (err) {
   console.error("[uncaughtException]", err);
   process.exit(1);
@@ -19,17 +20,22 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
-// web service
-var app = express();
-app.configure(function(){
-  app.use(express.static(__dirname + '/public'))
-  app.use(app.router);
-  app.set('rasterizerService', new RasterizerService(config.rasterizer).startService());
-  app.set('fileCleanerService', new FileCleanerService(config.cache.lifetime));
-});
-app.configure('development', function() {
+app.use(express.static(__dirname + '/public'));
+app.use(app.router);
+app.set('rasterizerService', new RasterizerService(config.rasterizer).startService());
+
+/// ------ development only
+if ('development' == app.get('env')) {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+}
+
+/// ------ production or staging
+if ('development' != app.get('env')) {
+
+}
+
+/// ------ route
 require('./routes')(app);
+
 app.listen(config.server.port);
-console.log('Express server listening on port ' + config.server.port);
+console.log('Phantomservice listening on port ' + config.server.port);

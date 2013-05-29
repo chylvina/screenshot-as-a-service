@@ -2,9 +2,8 @@
  * Module dependencies.
  */
 
-var spawn = require('child_process').spawn,
-    config = require('config'),
-    request = require('request');
+var spawn = require('child_process').spawn;
+var request = require('request');
 
 /**
  * Rasterizer service.
@@ -20,7 +19,7 @@ var spawn = require('child_process').spawn,
  * @param {Object} Server configuration
  * @api public
  */
-var RasterizerService = function(config) {
+var PhantomService = function(config) {
   this.isStopping = false;
   this.config = config;
   this.rasterizer = null;
@@ -34,7 +33,7 @@ var RasterizerService = function(config) {
   });
 }
 
-RasterizerService.prototype.startService = function() {
+PhantomService.prototype.startService = function() {
   var rasterizer = spawn(this.config.command, ['scripts/rasterizer.js', this.config.path, this.config.port, this.config.viewport]);
   var self = this;
   rasterizer.stderr.on('data', function (data) {
@@ -56,7 +55,7 @@ RasterizerService.prototype.startService = function() {
   return this;
 }
 
-RasterizerService.prototype.killService = function() {
+PhantomService.prototype.killService = function() {
   if (this.rasterizer) {
     this.rasterizer.kill();
     clearInterval(this.pingServiceIntervalId);
@@ -65,14 +64,14 @@ RasterizerService.prototype.killService = function() {
   }
 }
 
-RasterizerService.prototype.restartService = function() {
+PhantomService.prototype.restartService = function() {
   if (this.rasterizer) {
     this.killService();
     this.startService();
   }
 }
 
-RasterizerService.prototype.pingService = function() {
+PhantomService.prototype.pingService = function() {
   if (!this.rasterizer) {
     this.lastHealthCheckDate = 0;
   }
@@ -83,19 +82,19 @@ RasterizerService.prototype.pingService = function() {
   });
 }
 
-RasterizerService.prototype.checkHealth = function() {
+PhantomService.prototype.checkHealth = function() {
   if (Date.now() - this.lastHealthCheckDate > this.sleepTime) {
     console.log('Phantomjs process is sleeping. Restarting.');
     this.restartService();
   }
 }
 
-RasterizerService.prototype.getPort = function() {
+PhantomService.prototype.getPort = function() {
   return this.config.port;
 }
 
-RasterizerService.prototype.getPath = function() {
+PhantomService.prototype.getPath = function() {
   return this.config.path;
 }
 
-module.exports = RasterizerService;
+module.exports = PhantomService;
