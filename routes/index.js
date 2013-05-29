@@ -8,6 +8,90 @@ module.exports = function(app) {
   var rasterizerService = app.settings.rasterizerService;
   var fileCleanerService = app.settings.fileCleanerService;
 
+  ///------ by chylvina ------
+  var db = require("mongojs").connect('mongodb://localhost/mynetrnd', ["sites"]);
+
+  var sites;
+  var index = 0;
+
+  db.sites.find(function(err, result) {
+    sites = result;
+    getImage();
+  });
+
+  var getImage = function() {
+    // loop
+    var res = sites[index++];
+    if(!res) {
+      return;
+    }
+
+    // init
+    var domain = res.domain1;
+    var id = res._id;
+
+    // start
+    console.log('Starting:' + domain);
+    var url = utils.url(domain);
+    // required options
+    var options = {
+      uri: 'http://localhost:' + rasterizerService.getPort() + '/',
+      headers: { url: url }
+    };
+
+    //var filename = 'screenshot_' + utils.md5(url + JSON.stringify(options)) + '.png';
+    var filename = 'sc_' + domain + '_index' + '.png';
+    options.headers.filename = filename;
+
+    var filePath = join(rasterizerService.getPath(), filename);
+
+    var callbackUrl = false;
+
+    if (fs.existsSync(filePath)) {
+      console.log('Request for %s - Found in cache', url);
+      processImageUsingCache(filePath, res, callbackUrl, function(err) { if (err) next(err); });
+      return;
+    }
+    console.log('Request for %s - Rasterizing it', url);
+    processImageUsingRasterizer(options, filePath, res, callbackUrl, function(err) {
+      if(err) {
+        // log
+        console.log('Error:' + domain);
+
+        db.sites.update({domain1: domain}, {$set: {available: "0"}}, function(err, updated) {
+          if( err || !updated ) {
+            console.log(err);
+          }
+          else {
+            console.log(updated);
+          }
+
+          // loop
+          getImage();
+          next(err);
+        });
+      }
+      else {
+        // log
+        console.log('Success:' + domain);
+
+        db.sites.update({domain1: domain}, {$set: {available: "1"}}, function(err, updated) {
+          if( err || !updated ) {
+            console.log(err);
+          }
+          else {
+            console.log(updated);
+          }
+
+          // loop
+          getImage();
+        });
+      }
+
+    });
+  }
+  ///------ end ------
+
   // routes
   app.get('/', function(req, res, next) {
     if (!req.param('url', false)) {
@@ -24,7 +108,8 @@ module.exports = function(app) {
       if (req.param(name, false)) options.headers[name] = req.param(name);
     });
 
-    var filename = 'screenshot_' + utils.md5(url + JSON.stringify(options)) + '.png';
+    //var filename = 'screenshot_' + utils.md5(url + JSON.stringify(options)) + '.png';
+    var filename = 'sc_' + req.param('url') + '_index' + '.png';
     options.headers.filename = filename;
 
     var filePath = join(rasterizerService.getPath(), filename);
@@ -53,7 +138,7 @@ module.exports = function(app) {
       postImageToUrl(filePath, url, callback);
     } else {
       // synchronous
-      sendImageInResponse(filePath, res, callback);
+      //sendImageInResponse(filePath, res, callback);
     }
   }
 
@@ -69,7 +154,10 @@ module.exports = function(app) {
       // synchronous
       callRasterizer(rasterizerOptions, function(error) {
         if (error) return callback(error);
-        sendImageInResponse(filePath, res, callback);
+        else {
+          callback(null);
+        }
+        //sendImageInResponse(filePath, res, callback);
       });
     }
   }
