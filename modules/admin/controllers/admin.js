@@ -36,16 +36,34 @@ exports.captureAll = function (req, res, next) {
   });
 
   var doCapture = function() {
-    if(index >= sites.length) {
+    if(index >=sites.length) {
       return res.send(200, 'Done');
     }
 
-    screencapture.capture((sites[index++]).domain1, function(err) {
+    var domain = (sites[index++]).domain1;
+    screencapture.capture(domain, function(err) {
       if(err) {
-        return res.send(500, 'Failed');
+        // update db if capture failed
+        db.sites.update({domain1: domain}, {$set: {available: "0"}}, function(err, updated) {
+          if( err || !updated ) {
+            console.log('Update database failed.');
+          }
+
+          // continue
+          doCapture();
+        });
+        return;
       }
 
-      res.send(200, 'Done');
+      // update db if capture suceceed
+      db.sites.update({domain1: domain}, {$set: {available: "1"}}, function(err, updated) {
+        if( err || !updated ) {
+          console.log('Update database failed.');
+        }
+
+        // continue
+        doCapture();
+      });
     });
   };
 };
