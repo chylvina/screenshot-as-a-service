@@ -22,7 +22,7 @@ process.on('SIGINT', function () {
 
 app.use(express.static(__dirname + '/public'));
 app.use(app.router);
-app.set('rasterizerService', new RasterizerService(config.rasterizer).startService());
+app.set('rasterizerService', new RasterizerService(config.phantom).startService());
 
 /// ------ development only
 if ('development' == app.get('env')) {

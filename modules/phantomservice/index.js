@@ -6,9 +6,9 @@ var spawn = require('child_process').spawn;
 var request = require('request');
 
 /**
- * Rasterizer service.
+ * phantom service.
  *
- * The service starts, kills or restarts rasterizer server
+ * The service starts, kills or restarts phantom server
  *
  * The constructor expects a configuration object as parameter, with these properties:
  *   command: Command to start a phantomjs process
@@ -22,7 +22,7 @@ var request = require('request');
 var PhantomService = function(config) {
   this.isStopping = false;
   this.config = config;
-  this.rasterizer = null;
+  this.phantom = null;
   this.pingDelay = 10000; // every 10 seconds
   this.sleepTime = 30000; // three failed health checks, 30 seconds
   this.lastHealthCheckDate = null;
@@ -34,20 +34,20 @@ var PhantomService = function(config) {
 }
 
 PhantomService.prototype.startService = function() {
-  var rasterizer = spawn(this.config.command, [__dirname + '/rasterizer.js', this.config.path, this.config.port, this.config.viewport]);
+  var phantom = spawn(this.config.command, [__dirname + '/phantom.js', this.config.path, this.config.port, this.config.viewport]);
   var self = this;
-  rasterizer.stderr.on('data', function (data) {
+  phantom.stderr.on('data', function (data) {
     console.log('phantomjs error: ' + data);
   });
-  rasterizer.stdout.on('data', function (data) {
+  phantom.stdout.on('data', function (data) {
     console.log('phantomjs output: ' + data);
   });
-  rasterizer.on('exit', function (code) {
+  phantom.on('exit', function (code) {
     if (self.isStopping) return;
     console.log('phantomjs failed; restarting');
     self.startService();
   });
-  this.rasterizer = rasterizer;
+  this.phantom = phantom;
   this.lastHealthCheckDate = Date.now();
   this.pingServiceIntervalId = setInterval(this.pingService.bind(this), this.pingDelay);
   this.checkHealthIntervalId = setInterval(this.checkHealth.bind(this), 1000);
@@ -56,8 +56,8 @@ PhantomService.prototype.startService = function() {
 }
 
 PhantomService.prototype.killService = function() {
-  if (this.rasterizer) {
-    this.rasterizer.kill();
+  if (this.phantom) {
+    this.phantom.kill();
     clearInterval(this.pingServiceIntervalId);
     clearInterval(this.checkHealthIntervalId);
     console.log('Stopping Phantomjs internal server');
@@ -65,14 +65,14 @@ PhantomService.prototype.killService = function() {
 }
 
 PhantomService.prototype.restartService = function() {
-  if (this.rasterizer) {
+  if (this.phantom) {
     this.killService();
     this.startService();
   }
 }
 
 PhantomService.prototype.pingService = function() {
-  if (!this.rasterizer) {
+  if (!this.phantom) {
     this.lastHealthCheckDate = 0;
   }
   var self = this;

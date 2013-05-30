@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var config = require('config');
-var RasterizerService = require('./modules/phantomservice');
+var phantomservice = require('./modules/phantomservice');
 
 process.on('uncaughtException', function (err) {
   console.error("[uncaughtException]", err);
@@ -17,4 +17,4 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
-new RasterizerService(config.rasterizer).startService();
+new phantomservice(config.phantom).startService();

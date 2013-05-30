@@ -20,6 +20,10 @@ exports.capture = function (req, res, next) {
   });
 };
 
+exports.findlogo = function (req, res, next) {
+
+};
+
 exports.captureAll = function (req, res, next) {
   var db = require("mongojs").connect(config.db.url, [config.db.collections]);
 
@@ -28,16 +32,17 @@ exports.captureAll = function (req, res, next) {
 
   db.sites.find(function(err, result) {
     if(err || !result) {
-      return res.send(500, 'Failed');
+      return res.send(500, 'Failed when indexing db.');
     }
 
     sites = result;
     doCapture();
+    return res.send(200, 'Running.'); // 不等待全部运行完毕，直接返回。
   });
 
   var doCapture = function() {
     if(index >=sites.length) {
-      return res.send(200, 'Done');
+      return;
     }
 
     var domain = (sites[index++]).domain1;

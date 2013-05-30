@@ -9,7 +9,7 @@ var config = require('config'),
     request = require('request'),
     utils = require('../../../lib/utils');
 
-exports.capture = function(urlStr, callback) {
+exports.do = function(urlStr, callback) {
   if(!urlStr) {
     return callback('urlStr is required.');
   }
@@ -19,7 +19,7 @@ exports.capture = function(urlStr, callback) {
   var url = utils.url(urlStr);
   // required options
   var options = {
-    uri: 'http://' + config.phantom.host + ':' + config.phantom.port + '/capture',
+    uri: 'http://' + config.phantom.host + ':' + config.phantom.port + '/findlogo',
     headers: { url: url }
   };
 
@@ -32,7 +32,7 @@ exports.capture = function(urlStr, callback) {
   request.get(options, function(error, response, body) {
     if (error || response.statusCode != 200) {
       console.log(response.statusCode);
-      console.log('Error while requesting the phantom');
+      console.log('Error while requesting the phangom');
       return callback('failed');
     }
 
