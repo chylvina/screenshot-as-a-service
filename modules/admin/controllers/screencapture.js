@@ -31,7 +31,6 @@ exports.capture = function(urlStr, callback) {
 
   request.get(options, function(error, response, body) {
     if (error || response.statusCode != 200) {
-      console.log(response.statusCode);
       console.log('Error while requesting the phantom');
       return callback('failed');
     }

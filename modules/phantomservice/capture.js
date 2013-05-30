@@ -34,57 +34,6 @@
  */
 
 exports.do = function (request, response) {
-  var basePath = phantom.args[0] || '/tmp/';
-
-  var port = phantom.args[1] || 3001;
-
-  var defaultViewportSize = phantom.args[2] || '';
-  defaultViewportSize = defaultViewportSize.split('x');
-  defaultViewportSize = {
-    width: ~~defaultViewportSize[0] || 1024,
-    height: ~~defaultViewportSize[1] || 600
-  };
-
-  var pageSettings = ['javascriptEnabled', 'loadImages', 'localToRemoteUrlAccessEnabled', 'userAgent', 'userName', 'password'];
-
-  var server, service;
-
-  server = require('webserver').create();
-
-  if (!request.headers.url) {
-    response.statusCode = 400;
-    response.write('Error: Request must contain an url header' + "\n");
-    response.close();
-    return;
-  }
-  var url = request.headers.url;
-  var path = basePath + (request.headers.filename || (url.replace(new RegExp('https?://'), '').replace(/\//g, '.') + '.png'));
-  var page = new WebPage();
-  page.onConsoleMessage = function(msg) {
-    console.log(msg);
-  };
-  var delay = request.headers.delay || 1000; //todo: considering if should set to 3000?
-  try {
-    page.viewportSize = {
-      width: request.headers.width || defaultViewportSize.width,
-      height: request.headers.height || defaultViewportSize.height
-    };
-    if (request.headers.clipRect) {
-      page.clipRect = JSON.parse(request.headers.clipRect);
-    }
-    for (name in pageSettings) {
-      if (value = request.headers[pageSettings[name]]) {
-        value = (value == 'false') ? false : ((value == 'true') ? true : value);
-        page.settings[pageSettings[name]] = value;
-      }
-    }
-  }
-  catch (err) {
-    response.statusCode = 500;
-    console.log('Error while parsing headers: ' + err.message);
-    response.write('Error while parsing headers: ' + err.message);
-    return response.close();
-  }
   console.log('------------- Starting: ' + url);
   page.open(url, function (status) {
     if (status == 'success') {

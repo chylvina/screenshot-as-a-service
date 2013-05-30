@@ -34,7 +34,7 @@ var PhantomService = function(config) {
 }
 
 PhantomService.prototype.startService = function() {
-  var phantom = spawn(this.config.command, [__dirname + '/phantom.js', this.config.path, this.config.port, this.config.viewport]);
+  var phantom = spawn(this.config.command, [__dirname + '/run.js', this.config.path, this.config.port, this.config.viewport]);
   var self = this;
   phantom.stderr.on('data', function (data) {
     console.log('phantomjs error: ' + data);
@@ -76,7 +76,7 @@ PhantomService.prototype.pingService = function() {
     this.lastHealthCheckDate = 0;
   }
   var self = this;
-  request('http://localhost:' + this.getPort() + '/healthCheck', function(error, response) {
+  request('http://' + this.config.host +':' + this.getPort() + '/healthCheck', function(error, response) {
     if (error || response.statusCode != 200) return;
     self.lastHealthCheckDate = Date.now();
   });
