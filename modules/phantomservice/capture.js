@@ -1,27 +1,9 @@
-/*
- * phantomjs rasteriser server
+/**
  *
- * Usage:
- *   phantomjs rasterizer.js [basePath] [port] [defaultViewportSize]
- *
- * This starts an HTTP server waiting for screenshot requests
+ * Author: xiongliang.xl@alibaba-inc.com
+ * Since: 13-5-30 上午10:25
+ * Description:
  */
-var basePath = phantom.args[0] || '/tmp/';
-
-var port = phantom.args[1] || 3001;
-
-var defaultViewportSize = phantom.args[2] || '';
-defaultViewportSize = defaultViewportSize.split('x');
-defaultViewportSize = {
-  width: ~~defaultViewportSize[0] || 1024,
-  height: ~~defaultViewportSize[1] || 600
-};
-
-var pageSettings = ['javascriptEnabled', 'loadImages', 'localToRemoteUrlAccessEnabled', 'userAgent', 'userName', 'password'];
-
-var server, service;
-
-server = require('webserver').create();
 
 /*
  * Screenshot service
@@ -50,13 +32,25 @@ server = require('webserver').create();
  * javascriptEnabled: false
  * userAgent: Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+
  */
-service = server.listen(port, function (request, response) {
-  if (request.url == '/healthCheck') {
-    response.statusCode = 200;
-    response.write('up');
-    response.close();
-    return;
-  }
+
+exports.do = function (request, response) {
+  var basePath = phantom.args[0] || '/tmp/';
+
+  var port = phantom.args[1] || 3001;
+
+  var defaultViewportSize = phantom.args[2] || '';
+  defaultViewportSize = defaultViewportSize.split('x');
+  defaultViewportSize = {
+    width: ~~defaultViewportSize[0] || 1024,
+    height: ~~defaultViewportSize[1] || 600
+  };
+
+  var pageSettings = ['javascriptEnabled', 'loadImages', 'localToRemoteUrlAccessEnabled', 'userAgent', 'userName', 'password'];
+
+  var server, service;
+
+  server = require('webserver').create();
+
   if (!request.headers.url) {
     response.statusCode = 400;
     response.write('Error: Request must contain an url header' + "\n");
@@ -115,4 +109,4 @@ service = server.listen(port, function (request, response) {
   // must start the response now, or phantom closes the connection
   //response.statusCode = 200;
   //response.write('');
-});
+};

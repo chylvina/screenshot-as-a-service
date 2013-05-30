@@ -1,7 +1,7 @@
 rasterizer:
   host: 'localhost'
   command: phantomjs   # phantomjs executable
-  port: 3001           # internal service port. No need to allow inbound or outbound access to this port
+  port: 4001           # internal service port. No need to allow inbound or outbound access to this port
   path: 'D:/workspace/screenshot-as-a-service/test/screenshot/original/'        # where the screenshot files are stored
   viewport: '1024x768' # browser window size. Height frows according to the content
 cache:
@@ -9,7 +9,7 @@ cache:
 server:
   port: 3000           # main service port
 adminServer:
-  port: 3002
+  port: 4002
 db:
   url: 'mongodb://localhost/mynetrnd'
   collections: 'sites'

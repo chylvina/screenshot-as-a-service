@@ -19,7 +19,7 @@ exports.capture = function(urlStr, callback) {
   var url = utils.url(urlStr);
   // required options
   var options = {
-    uri: 'http://' + config.rasterizer.host + ':' + config.rasterizer.port + '/',
+    uri: 'http://' + config.rasterizer.host + ':' + config.rasterizer.port + '/capture',
     headers: { url: url }
   };
 
@@ -31,9 +31,9 @@ exports.capture = function(urlStr, callback) {
 
   request.get(options, function(error, response, body) {
     if (error || response.statusCode != 200) {
-      console.log('Error while requesting the rasterizer: %s', error.message);
-      rasterizerService.restartService();
-      return callback(new Error(body));
+      console.log(response.statusCode);
+      console.log('Error while requesting the rasterizer');
+      return callback('failed');
     }
 
     // success

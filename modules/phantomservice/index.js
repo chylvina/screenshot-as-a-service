@@ -34,7 +34,7 @@ var PhantomService = function(config) {
 }
 
 PhantomService.prototype.startService = function() {
-  var rasterizer = spawn(this.config.command, ['scripts/rasterizer.js', this.config.path, this.config.port, this.config.viewport]);
+  var rasterizer = spawn(this.config.command, [__dirname + '/rasterizer.js', this.config.path, this.config.port, this.config.viewport]);
   var self = this;
   rasterizer.stderr.on('data', function (data) {
     console.log('phantomjs error: ' + data);

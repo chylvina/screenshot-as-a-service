@@ -20,7 +20,18 @@ if ('development' == app.get('env')) {
 
 /// ------ production or staging
 if ('development' != app.get('env')) {
+  process.on('uncaughtException', function (err) {
+    console.error("[uncaughtException]", err);
+    process.exit(1);
+  });
 
+  process.on('SIGTERM', function () {
+    process.exit(0);
+  });
+
+  process.on('SIGINT', function () {
+    process.exit(0);
+  });
 }
 
 /// ------ route
