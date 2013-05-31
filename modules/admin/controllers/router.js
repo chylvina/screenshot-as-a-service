@@ -6,7 +6,6 @@ var utils = require('../../../lib/utils'),
     request = require('request');
 
 module.exports = function (app) {
-  app.get('/admin/capture', adminController.capture);    // /admin/capture?url=xxxxxxxx
   app.get('/admin/captureall', adminController.captureAll);
-  app.get('/admin/findlogoall', adminController.findlogoall);
+  app.get('/admin/findall', adminController.findall);
 };

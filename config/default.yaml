@@ -2,7 +2,7 @@ phantom:
   host: 'localhost'
   command: phantomjs   # phantomjs executable
   port: 3001           # internal service port. No need to allow inbound or outbound access to this port
-  path: 'D:/workspace/screenshot-as-a-service/test/screenshot/hilightlogo/'        # where the screenshot files are stored
+  path: 'D:/workspace/screenshot-as-a-service/test/screenshot/find/'        # where the screenshot files are stored
   viewport: '1024x768' # browser window size. Height frows according to the content
   timeout: 8000        # now work yet! Integer containing the number of milliseconds to wait for a request to respond before aborting the request
 cache:

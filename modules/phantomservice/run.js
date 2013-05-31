@@ -88,7 +88,7 @@ var find = function (request, response) {
     return;
   }
 
-  var path = basePath + url.replace('/^https?:\/\//', '').replace(/[\/\\\:\*\?\"\'\<\>\|]+/g, '-').substr(0, 128) + '.png';
+  var path = basePath + 'sc_' + url.replace(/^https?:\/\//, '').replace(/[\/\\\:\*\?\"\'\<\>\|]+/g, '-').substr(0, 128) + '.png';
   var delay = 1000; //todo: considering if should set to 3000?
   var page = createPage();
 
@@ -99,17 +99,24 @@ var find = function (request, response) {
     if(page.injectJs('jquery-1.10.0.min.js')) {
       page.evaluate(function() {
         // helpers
-        var distance = function(a, b) {
-          return Math.sqrt(a*a + b*b);
+        var distance = function(ax, ay, bx, by) {
+          return Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2));
         };
         var theBody = $('body');
         theBody.prepend('<div id="mynetwarning" style="position: absolute;font-size: 50px;color: #d14836;font-weight: bold;background-color:#fff;padding: 20px;border: solid 1px #000;"></div>');
         var warning = function(s) {
           $('#mynetwarning').append('<div style="height: 56px;  border-bottom: solid 1px #000;  line-height: 1;">' + s + '</div>');
         };
+        var highlight = function(elem, color) {
+          elem.css('border', 'solid 2px ' + color);
+        };
+        var addPoint = function(x, y, color) {
+          $('body').append($('<div style="width: 2px;height: 2px;position: absolute;border: solid 2px ' + color + ';background-color: ' + color + ';"></div>').css('top', y + 'px').css('left', x + 'px'));
+        };
 
         /// verify whether this is a mynet webpage
-        if($('#spanMasterTemplateBackgroundBody').length < 1) {
+        var container = $('#spanMasterTemplateBackgroundBody');
+        if(container.length < 1) {
           warning('这不是万网建站。');
           return;
         }
@@ -130,7 +137,7 @@ var find = function (request, response) {
           elem = $(elem);
 
           // rule 1, width & height
-          if(elem.width() > 800 || elem.width() < 20 || elem.height() > 400 || elem.height() <= 20) {
+          if(elem.width() < 30 || elem.height() > 300 || elem.height() < 30) {
             console.log('----------', elem.get(0));
             return;
           }
@@ -144,9 +151,12 @@ var find = function (request, response) {
           // calculate center
           elem.data('center', { x: elem.offset().left + elem.width() / 2, y: elem.offset().top + elem.height() / 2 });
           // test center
-          //$('body').append($('<div style="width: 2px;height: 2px;position: absolute;border: solid 2px #ff0000;background-color: #ff0000;"></div>').css('top', elem.data('center').y + 'px').css('left', elem.data('center').x + 'px'));
-          // calculate distance from center to document leftTop
-          elem.data('distance', distance(elem.data('center').x, elem.data('center').y));
+          addPoint(elem.data('center').x, elem.data('center').y, '#ff0000');
+          addPoint(container.offset().left + container.width() / 2, container.offset().top, '#ff0000');
+          // calculate distance from center to document middleTop
+          elem.data('distance',
+              distance(elem.data('center').x, elem.data('center').y),
+              container.offset().left + container.width() / 2, container.offset().top);
 
           imgJQeryList.push(elem);
         });
@@ -160,11 +170,17 @@ var find = function (request, response) {
           }
 
           // highlight the result
-          imgJQeryList[0].css('border', 'solid 2px #ffff00');
-          console.log('findlogo finished.');
+          highlight(imgJQeryList[0], '#ffff00');
 
           /// find menu
+          highlight($('.mynetMenuBox'), '#ff0000');
 
+          /// find block
+          var blocks = $('div').filter(function() {
+            var elem = $(this);
+            return (elem.css('z-index') > 0) && (elem.css('position') == 'absolute');
+          });
+          highlight(blocks, '#000');
         }
       });
 

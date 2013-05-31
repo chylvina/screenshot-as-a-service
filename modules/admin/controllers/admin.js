@@ -5,23 +5,10 @@
  * Description:
  */
 
-var screencapture = require('./screencapture'),
-    request = require('request'),
+var request = require('request'),
     config = require('config');
 
-exports.capture = function (req, res, next) {
-  console.log(req.query.url);
-
-  screencapture.capture(req.query.url, function(err) {
-    if(err) {
-      return res.send(500, 'Failed');
-    }
-
-    res.send(200, 'Done');
-  });
-};
-
-exports.findlogoall = function (req, res, next) {
+exports.findall = function (req, res, next) {
   var db = require("mongojs").connect(config.db.url, [config.db.collections]);
 
   var index = 0;
@@ -33,23 +20,23 @@ exports.findlogoall = function (req, res, next) {
     }
 
     sites = result;
-    doFindlogo();
+    doFind();
     return res.send(200, 'Running.'); // 不等待全部运行完毕，直接返回。
   });
 
-  var doFindlogo = function() {
+  var doFind = function() {
     if(index >=sites.length) {
       return;
     }
 
     var domain = (sites[index++]).domain1;
     request.get('http://' + config.phantom.host + ':' + config.phantom.port
-        + '/findlogo?url=' + domain, function(error, response, body) {
+        + '/find?url=' + domain, function(error, response, body) {
       if (error || response.statusCode != 200) {
         console.log('Error while requesting the phantom');
       }
 
-      doFindlogo();
+      doFind();
     });
   };
 };
@@ -76,29 +63,13 @@ exports.captureAll = function (req, res, next) {
     }
 
     var domain = (sites[index++]).domain1;
-    screencapture.capture(domain, function(err) {
-      if(err) {
-        // update db if capture failed
-        db.sites.update({domain1: domain}, {$set: {available: "0"}}, function(err, updated) {
-          if( err || !updated ) {
-            console.log('Update database failed.');
-          }
-
-          // continue
-          doCapture();
-        });
-        return;
+    request.get('http://' + config.phantom.host + ':' + config.phantom.port
+        + '/capture?url=' + domain, function(error, response, body) {
+      if (error || response.statusCode != 200) {
+        console.log('Error while requesting the phantom');
       }
 
-      // update db if capture suceceed
-      db.sites.update({domain1: domain}, {$set: {available: "1"}}, function(err, updated) {
-        if( err || !updated ) {
-          console.log('Update database failed.');
-        }
-
-        // continue
-        doCapture();
-      });
+      doCapture();
     });
   };
 };
