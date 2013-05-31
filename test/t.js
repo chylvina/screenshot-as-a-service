@@ -1,65 +1,33 @@
-var page = require('webpage').create();
+var phantom=require('node-phantom');
+phantom.create(function(err,ph) {
+  return ph.createPage(function(err,page) {
+    return page.open("http://tilomitra.com/repository/screenscrape/ajax.html", function(err,status) {
+      console.log("opened site? ", status);
+      page.includeJs('http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', function(err) {
+        //jQuery Loaded.
+        //Wait for a bit for AJAX content to load on the page. Here, we are waiting 5 seconds.
+        setTimeout(function() {
+          return page.evaluate(function() {
+            //Get what you want from the page using jQuery. A good way is to populate an object with all the jQuery commands that you need and then return the object.
+            var h2Arr = [],
+            pArr = [];
+            $('h2').each(function() {
+              h2Arr.push($(this).html());
+            });
+            $('p').each(function() {
+              pArr.push($(this).html());
+            });
 
-page.onConsoleMessage = function(msg) {
-    console.log(msg);
-};
-
-page.open('http://www.quick-markup.com', function(status) {
-	if (status !== 'success') {
-        console.log('Unable to access network');
-    }
-	if(page.injectJs('jquery-1.10.0.min.js')) {
-		page.evaluate(function() {
-            console.log($('#main').offset().top);
-        });
-	    phantom.exit();
-	}
-	else {
-		console.log('Failed to inject jquery-1.10.0.min.js');
-	}
+            return {
+              h2: h2Arr,
+              p: pArr
+            };
+          }, function(err,result) {
+            console.log(result);
+            ph.exit();
+          });
+        }, 5000);
+      });
+    });
+  });
 });
-
-var imgJQeryList = [];
-
-$('img').each(function( index, elem ) {
-	elem = $(elem);
-
-	// rule 1, width & height
-	if(elem.width() >= 500 || elem.width() <= 20 || elem.height() >= 400 || elem.height() <= 20) {
-		console.log('----------', elem.get(0));
-		//imgJQeryList.splice(index, 1);
-		return;
-	}
-
-	// rule 2, top, left position
-	if(elem.offset().left >= 800 || elem.offset().top >= 300) {
-		console.log('----------', elem.get(0));
-		//imgJQeryList.splice(index, 1);
-		return;
-	}
-
-	// calculate center
-  	elem.data('center', { x: elem.offset().left + elem.width() / 2, y: elem.offset().top + elem.height() / 2 });
-  	// test center
-  	//$('body').append($('<div style="width: 2px;height: 2px;position: absolute;border: solid 2px #ff0000;background-color: #ff0000;"></div>').css('top', elem.data('center').y + 'px').css('left', elem.data('center').x + 'px'));
-  	// calculate distance from center to document leftTop
-  	elem.data('distance', squareRoot(elem.data('center').x, elem.data('center').y));
-
-  	imgJQeryList.push(elem);
-});
-
-if(imgJQeryList.length > 0) {
-	// rule 3, sort distance from center to document leftTop
-	if(imgJQeryList.length > 1) {
-		imgJQeryList.sort(function(a, b) {
-			return a.data('distance') - b.data('distance');
-		});
-	}
-
-	// highlight the result
-	imgJQeryList[0].css('border', 'solid 2px #ffff00');
-}
-
-var squareRoot = function(a, b) {
-  return Math.sqrt(a*a + b*b);
-};
