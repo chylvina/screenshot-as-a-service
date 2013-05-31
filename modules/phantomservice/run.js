@@ -176,10 +176,11 @@ var find = function (request, response) {
         /// find menu
         highlight($('.mynetMenuBox'), '#ff0000');
         /// find block
-        var blocks = $('div').filter(function() {
+        /*var blocks = $('div').filter(function() {
           var elem = $(this);
           return (elem.css('z-index') > 0) && (elem.css('position') == 'absolute');
-        });
+        });*/
+        var blocks = $('div[id*="mynetdivd"]');
         highlight(blocks, '#000');
         console.log('####################### parse complete.');
       });
