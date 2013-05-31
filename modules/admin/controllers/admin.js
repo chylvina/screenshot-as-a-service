@@ -6,6 +6,7 @@
  */
 
 var screencapture = require('./screencapture'),
+    request = require('request'),
     config = require('config');
 
 exports.capture = function (req, res, next) {
@@ -20,8 +21,37 @@ exports.capture = function (req, res, next) {
   });
 };
 
-exports.findlogo = function (req, res, next) {
+exports.findlogoall = function (req, res, next) {
+  var db = require("mongojs").connect(config.db.url, [config.db.collections]);
 
+  var index = 0;
+  var sites = null;
+
+  db.sites.find(function(err, result) {
+    if(err || !result) {
+      return res.send(500, 'Failed when indexing db.');
+    }
+
+    sites = result;
+    doFindlogo();
+    return res.send(200, 'Running.'); // 不等待全部运行完毕，直接返回。
+  });
+
+  var doFindlogo = function() {
+    if(index >=sites.length) {
+      return;
+    }
+
+    var domain = (sites[index++]).domain1;
+    request.get('http://' + config.phantom.host + ':' + config.phantom.port
+        + '/findlogo?url=' + domain, function(error, response, body) {
+      if (error || response.statusCode != 200) {
+        console.log('Error while requesting the phantom');
+      }
+
+      doFindlogo();
+    });
+  };
 };
 
 exports.captureAll = function (req, res, next) {
