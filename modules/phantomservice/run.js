@@ -171,17 +171,17 @@ var find = function (request, response) {
 
           // highlight the result
           highlight(imgJQeryList[0], '#ffff00');
-
-          /// find menu
-          highlight($('.mynetMenuBox'), '#ff0000');
-
-          /// find block
-          var blocks = $('div').filter(function() {
-            var elem = $(this);
-            return (elem.css('z-index') > 0) && (elem.css('position') == 'absolute');
-          });
-          highlight(blocks, '#000');
         }
+
+        /// find menu
+        highlight($('.mynetMenuBox'), '#ff0000');
+        /// find block
+        var blocks = $('div').filter(function() {
+          var elem = $(this);
+          return (elem.css('z-index') > 0) && (elem.css('position') == 'absolute');
+        });
+        highlight(blocks, '#000');
+        console.log('####################### parse complete.');
       });
 
       //
