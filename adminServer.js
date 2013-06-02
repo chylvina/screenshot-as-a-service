@@ -12,15 +12,15 @@ var config = require('config'),
 /// ------ all environments
 app.use(express.bodyParser());
 
-/// ------ development only
-if ('development' == app.get('env')) {
+/// ------ development, staging, etc
+if ('production' != app.get('env')) {
   app.use(express.logger('dev'));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 }
 
-/// ------ production or staging
-if ('development' != app.get('env')) {
-  process.on('uncaughtException', function (err) {
+/// ------ production
+if ('production' == app.get('env')) {
+  /*process.on('uncaughtException', function (err) {
     console.error("[uncaughtException]", err);
     process.exit(1);
   });
@@ -31,7 +31,7 @@ if ('development' != app.get('env')) {
 
   process.on('SIGINT', function () {
     process.exit(0);
-  });
+  });*/
 }
 
 /// ------ route

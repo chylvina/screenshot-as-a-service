@@ -7,9 +7,12 @@
   },
   "dependencies": {
     "express": "3.x",
-    "config": ">=0.4.15",
-    "request": ">=2.9.153",
-    "xml2js": ">=0.2.7",
-    "mongojs": ">=0.7.5"
+    "config": "0.4.15",
+    "request": "latest",
+    "xml2js": "latest",
+    "mongojs": "latest",
+    "yaml": "latest",
+    "underscore": "latest",
+    "xss": "latest"
   }
 }

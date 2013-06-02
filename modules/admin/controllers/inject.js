@@ -1,37 +1,35 @@
 // default settings
 var urlStr = phantom.args[0] || '';
 var basePath = phantom.args[1] || '/tmp/';
-var port = phantom.args[2] || 3001;
-var defaultViewportSize = phantom.args[3] || '';
+var defaultViewportSize = phantom.args[2] || '';
 defaultViewportSize = defaultViewportSize.split('x');
 defaultViewportSize = {
   width: ~~defaultViewportSize[0] || 1024,
   height: ~~defaultViewportSize[1] || 600
 };
 
-/*// start server
-var server = require('webserver').create();
-server.listen(port, function (request, response) {
-  var url = request.url.split('?')[0];
+var createPage = function() {
+  var page = new WebPage();
+  page.onConsoleMessage = function(msg) {
+    console.log(msg);
+  };
 
-  if (url == '/healthCheck') {
-    healthcheck(request, response);
-    return;
-  }
+  page.viewportSize = {
+    width: defaultViewportSize.width,
+    height: defaultViewportSize.height
+  };
+  page.settings['javascriptEnabled'] = true;
+  page.settings['loadImages'] = true;
+  //page.settings['localToRemoteUrlAccessEnabled'] = value;
+  //page.settings['userAgent'] = value;
 
-  if(url == '/capture') {
-    capture(request, response);
-    return;
-  }
+  return page;
+};
 
-  if(url == '/find') {
-    find(request, response);
-    return;
-  }
-
-});*/
-
-find(urlStr);
+var getURL = function(url) {
+  if (~url.indexOf('://')) return url;
+  return 'http://' + url;
+};
 
 /// find logo
 var find = function (urlStr, request, response) {
@@ -42,11 +40,11 @@ var find = function (urlStr, request, response) {
     phantom.exit();
     return;
   }
-
   var path = basePath + 'sc_' + url.replace(/^https?:\/\//, '').replace(/[\/\\\:\*\?\"\'\<\>\|]+/g, '-').substr(0, 128) + '.png';
   var delay = 1000; //todo: considering if should set to 3000?
   var page = createPage();
 
+  console.log('Opening: ' + url);
   page.open(url, function(status) {
     if (status !== 'success') {
       console.log('error');
@@ -142,7 +140,7 @@ var find = function (urlStr, request, response) {
       });
 
       //
-      console.log('start render.');
+      console.log('start render: ' + path);
       page.render(path);
       console.log('Capture url success: ' + url);
       page.release();
@@ -150,35 +148,10 @@ var find = function (urlStr, request, response) {
     }
     else {
       console.log('Failed to inject jquery-1.10.0.min.js');
-      response.statusCode = 500;
-      response.write('Failed to inject jquery-1.10.0.min.js');
       page.release();
       phantom.exit();
     }
   });
 };
 
-var createPage = function() {
-  var page = new WebPage();
-  page.onConsoleMessage = function(msg) {
-    console.log(msg);
-  };
-
-  page.viewportSize = {
-    width: defaultViewportSize.width,
-    height: defaultViewportSize.height
-  };
-  page.settings['javascriptEnabled'] = true;
-  page.settings['loadImages'] = true;
-  //page.settings['localToRemoteUrlAccessEnabled'] = value;
-  //page.settings['userAgent'] = value;
-
-  return page;
-};
-
-var getURL = function(urlStr) {
-  var url = urlStr.split('?url=')[1] || '';
-  console.log(url);
-  if (~url.indexOf('://')) return url;
-  return 'http://' + url;
-};
+find(urlStr);
