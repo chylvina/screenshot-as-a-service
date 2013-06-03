@@ -11,7 +11,7 @@ var config = require('config'),
 
 /// ------ all environments
 app.use(express.bodyParser());
-
+console.log(app.get('env'));
 /// ------ development, staging, etc
 if ('production' != app.get('env')) {
   app.use(express.logger('dev'));

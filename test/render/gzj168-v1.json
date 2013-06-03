@@ -1,0 +1,33 @@
+{
+    "url": "http://www.gzj168.com/",
+    "title": "成都干燥剂，干燥剂，四川干燥剂，袋装干燥剂，绵阳干燥剂，德阳干燥剂，小包干燥剂，防潮珠",
+    "logo": {
+        "src": "/_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
+    },
+    "navbar": [
+        {
+            "url": "/",
+            "label": "首页"
+        },
+        {
+            "url": "/",
+            "label": "公司简介"
+        },
+        {
+            "url": "/",
+            "label": "产品展示"
+        },
+        {
+            "url": "/",
+            "label": "行业知识"
+        },
+        {
+            "url": "/",
+            "label": "在线留言"
+        },
+        {
+            "url": "/",
+            "label": "联系我们"
+        }
+    ]
+}

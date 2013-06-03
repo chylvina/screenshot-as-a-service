@@ -54,6 +54,7 @@ var find = function (urlStr, request, response) {
       page.evaluate(function() {
         // helpers
         var distance = function(ax, ay, bx, by) {
+          console.log('+++++++++++++++++++++', ax, ay, bx, by);
           return Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2));
         };
         var theBody = $('body');
@@ -65,11 +66,12 @@ var find = function (urlStr, request, response) {
           elem.css('border', 'solid 2px ' + color);
         };
         var addPoint = function(x, y, color) {
-          $('body').append($('<div style="width: 2px;height: 2px;position: absolute;border: solid 2px ' + color + ';background-color: ' + color + ';"></div>').css('top', y + 'px').css('left', x + 'px'));
+          $('body').append($('<div style="z-index: 999;width: 2px;height: 2px;position: absolute;border: solid 2px ' + color + ';background-color: ' + color + ';"></div>').css('top', y + 'px').css('left', x + 'px'));
         };
 
         /// verify whether this is a mynet webpage
         var container = $('#spanMasterTemplateBackgroundBody');
+        addPoint(container.offset().left + container.width() / 2, container.offset().top, '#ff0000');
         if(container.length < 1) {
           warning('这不是万网建站。');
           return;
@@ -106,12 +108,11 @@ var find = function (urlStr, request, response) {
           elem.data('center', { x: elem.offset().left + elem.width() / 2, y: elem.offset().top + elem.height() / 2 });
           // test center
           addPoint(elem.data('center').x, elem.data('center').y, '#ff0000');
-          addPoint(container.offset().left + container.width() / 2, container.offset().top, '#ff0000');
           // calculate distance from center to document middleTop
-          elem.data('distance',
-              distance(elem.data('center').x, elem.data('center').y),
-              container.offset().left + container.width() / 2, container.offset().top);
 
+          elem.data('distance',
+              distance(elem.data('center').x, elem.data('center').y,
+              container.offset().left, container.offset().top));
           imgJQeryList.push(elem);
         });
 
