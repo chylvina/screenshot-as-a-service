@@ -9,18 +9,53 @@
 </head>
 <body>
 <div id="content-placeholder"></div>
-<script id="image-template" type="text/x-handlebars-template">
-  <div class="entry">
-    <h1>{{title}}</h1>
-    <div class="body">
-      {{{body}}}
+<script id="page-template" type="text/x-handlebars-template">
+  <div data-role="page">
+    <!-- Header -->
+    <div data-theme="c" data-role="header">
+      {{> header}}
     </div>
-    <div>
-      {{#link}}{{/link}}
+    <!-- Content -->
+    <div data-role="content">
+      {{> content}}
+    </div>
+    <!-- Footer -->
+    <div data-theme="c" data-role="footer">
+      {{> footer}}
     </div>
   </div>
 </script>
+<script id="image-template" type="text/x-handlebars-template">
+  <div style="position: relative;text-align: center; padding: 0; margin: 10px;">
+    <img src="{{src}}" alt="image" style="max-width: 80%;">
+  </div>
+</script>
+<script id="navbar-template" type="text/x-handlebars-template">
+  <ul data-role="listview" data-divider-theme="c" data-inset="true">
+    {{#level1}}
+    <!-- nav level 1 -->
+    <li data-theme="b">
+      {{#if url}}
+      <a href="{{url}}" data-transition="slide">
+        {{/if}}
+        {{label}}
+        {{#if url}}
+      </a>
+      {{/if}}
+    </li>
+    {{#level2}}
+    <!-- nav level 2 -->
+    <li data-theme="d">
+      <a href="{{url}}" data-transition="slide">
+        {{label}}
+      </a>
+    </li>
+    {{/level2}}
+    {{/level1}}
+  </ul>
+</script>
 <script>
+  Handlebars.registerPartial('link', '<a href="/people/{{id}}">{{name}}</a>');
   Handlebars.registerHelper('link', function(text, url) {
     text = Handlebars.Utils.escapeExpression(text);
     url  = Handlebars.Utils.escapeExpression(url);

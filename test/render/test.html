@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.css" />
+  <script src="jquery-2.0.2.min.js"></script>
+  <script src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.js"></script>
+  <script src="handlebars-1.0.0.js"></script>
+</head>
+<body>
+<div data-role="page">
+  <!-- Header -->
+  <div data-theme="c" data-role="header">
+
+  </div>
+  <!-- Content -->
+  <div id="content" data-role="content">
+
+  </div>
+  <!-- Footer -->
+  <div data-theme="c" data-role="footer">
+
+  </div>
+</div>
+<script id="image-template" type="text/x-handlebars-template">
+  {{#if url}}
+  <a href="{{url}}">
+  {{/if}}
+    <div style="position: relative;text-align: center; padding: 0; margin: 10px;">
+      <img src="{{src}}" alt="image" style="max-width: 80%;">
+    </div>
+  {{#if url}}
+  </a>
+  {{/if}}
+</script>
+<script id="navbar-template" type="text/x-handlebars-template">
+  <ul data-role="listview" data-divider-theme="c" data-inset="true">
+    {{#level1}}
+    <!-- nav level 1 -->
+    <li data-theme="b">
+      {{#if url}}
+      <a href="{{url}}" data-transition="slide">
+      {{/if}}
+        {{label}}
+      {{#if url}}
+      </a>
+      {{/if}}
+    </li>
+    {{#level2}}
+    <!-- nav level 2 -->
+    <li data-theme="d">
+      <a href="{{url}}" data-transition="slide">
+        {{label}}
+      </a>
+    </li>
+    {{/level2}}
+    {{/level1}}
+  </ul>
+</script>
+<script>
+  /*var source   = $("#image-template").html();
+  var template = Handlebars.compile(source);
+  var data = {
+    "t": "image",
+    "url": "",
+    "src": "http://www.gzj168.com/_c_nqSliEQrt5fkvL3WdujNdDwr1sLKJIZHWWrUxm3tqNgf9Vw3qCHyuA==.png"
+  };
+  $("#content-placeholder").html(template(data));*/
+
+  var source   = $("#navbar-template").html();
+  var template = Handlebars.compile(source);
+  var data = {
+    "t": "navbar",
+    "level1": [
+      {
+        "t": "navbtn1",
+        "url": "/",
+        "label": "首页"
+      },
+      {
+        "t": "navbtn1",
+        "url": "",
+        "label": "公司简介",
+        "level2": [
+          {
+            "t": "navbtn2",
+            "url": "/",
+            "label": "2nd level btn 1"
+          },
+          {
+            "t": "navbtn2",
+            "url": "/",
+            "label": "2nd level btn 2"
+          }
+        ]
+      },
+      {
+        "t": "navbtn1",
+        "url": "/",
+        "label": "产品展示"
+      },
+      {
+        "t": "navbtn1",
+        "url": "/",
+        "label": "行业知识"
+      },
+      {
+        "t": "navbtn1",
+        "url": "/",
+        "label": "在线留言"
+      },
+      {
+        "t": "navbtn1",
+        "url": "/",
+        "label": "联系我们"
+      }
+    ]
+  };
+  $("#content").html(template(data));
+</script>
+</body>
+</html>
