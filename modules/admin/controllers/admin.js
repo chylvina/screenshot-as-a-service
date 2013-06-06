@@ -10,6 +10,37 @@ var request = require('request'),
 
 var spawn = require('child_process').spawn;
 
+exports.parse = function(req, res, next) {
+  var urlStr = req.query.url;
+  if(!urlStr) {
+    return res.send(400, 'url is required.');
+  }
+  console.log('urlStr:', urlStr);
+
+
+
+};
+
+exports.find = function(req, res, next) {
+  var urlStr = req.query.url;
+  if(!urlStr) {
+    return res.send(400, 'url is required.');
+  }
+  console.log('urlStr:', urlStr);
+
+  var phantom = spawn(config.phantom.command, [__dirname + '/run-find.js', urlStr, config.phantom.path, config.phantom.viewport]);
+  phantom.stderr.on('data', function (data) {
+    console.log('phantomjs error: ' + data);
+  });
+  phantom.stdout.on('data', function (data) {
+    console.log('phantomjs output: ' + data);
+  });
+  phantom.on('exit', function (code) {
+    console.log('phantomjs exit');
+    res.send(200, 'Done');
+  });
+};
+
 exports.findall = function (req, res, next) {
   var db = require("mongojs").connect(config.db.url, [config.db.collections]);
 
@@ -35,7 +66,7 @@ exports.findall = function (req, res, next) {
     while(concurrent < config.phantom.concurrent) {
       concurrent++;
       var domain = (sites[index++]).domain1;
-      var phantom = spawn(config.phantom.command, [__dirname + '/inject.js', domain, config.phantom.path, config.phantom.viewport]);
+      var phantom = spawn(config.phantom.command, [__dirname + '/run-find.js', domain, config.phantom.path, config.phantom.viewport]);
       phantom.stderr.on('data', function (data) {
         console.log('phantomjs error: ' + data);
       });
@@ -48,38 +79,5 @@ exports.findall = function (req, res, next) {
         doFind();
       });
     }
-  };
-};
-
-exports.captureAll = function (req, res, next) {
-  var db = require("mongojs").connect(config.db.url, [config.db.collections]);
-
-  var index = 0;
-  var sites = null;
-
-  db.sites.find(function(err, result) {
-    if(err || !result) {
-      return res.send(500, 'Failed when indexing db.');
-    }
-
-    sites = result;
-    doCapture();
-    return res.send(200, 'Running.'); // 不等待全部运行完毕，直接返回。
-  });
-
-  var doCapture = function() {
-    if(index >=sites.length) {
-      return;
-    }
-
-    var domain = (sites[index++]).domain1;
-    request.get('http://' + config.phantom.host + ':' + config.phantom.port
-        + '/capture?url=' + domain, function(error, response, body) {
-      if (error || response.statusCode != 200) {
-        console.log('Error while requesting the phantom');
-      }
-
-      doCapture();
-    });
   };
 };

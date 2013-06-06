@@ -1,0 +1,96 @@
+{
+  "host": "www.gzj168.com",
+  "url": "/",
+  "title": "成都干燥剂",   // from document title
+  "logo": {
+    "url": "",
+    "src": "/_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
+  },
+  "header": {
+    "t": "text",            // text || image
+    "text": "成都干燥剂"     // text content || image src
+  },
+  "content": [
+    {
+      "t": "navbar",
+      "level1": [
+          {
+          "t": "navbtn1",
+          "url": "/",
+          "text": "首页"
+        },
+        {
+          "t": "navbtn1",
+          "url": "/",
+          "text": "公司简介",
+          "level2": [
+            {
+              "t": "navbtn2",
+              "url": "/",
+              "text": "2nd level btn 1"
+            },
+            {
+              "t": "navbtn2",
+              "url": "/",
+              "text": "2nd level btn 2"
+            }
+          ]
+        },
+        {
+          "t": "navbtn1",
+          "url": "/",
+          "text": "产品展示"
+        },
+        {
+          "t": "navbtn1",
+          "url": "/",
+          "text": "行业知识"
+        },
+        {
+          "t": "navbtn1",
+          "url": "/",
+          "text": "在线留言"
+        },
+        {
+          "t": "navbtn1",
+          "url": "/",
+          "text": "联系我们"
+        }
+      ]
+    },
+    {
+      "t": "imagelist",
+      "items": [
+        {
+          "t": "image",
+          "url": "",
+          "src": "/_c_nqSliEQrt5fkvL3WdujNdDwr1sLKJIZHWWrUxm3tqNgf9Vw3qCHyuA==.png"
+        },
+        {
+          "t": "image",
+          "url": "",
+          "src": "/_c_tkuZAgRfDuVKp5dnEzwknqdRWNugl8qGzAGn5T0UtYYkVUo1XfHZlw==.png"
+        },
+        {
+          "t": "image",
+          "url": "",
+          "src": "/_c_j6SV5Hs8GAZjfdT1tdCSr7MXXlMLD69KOwkWdUbo-x1jD5jrMt6f3A==.png"
+        }
+      ]
+    },
+    {
+      "t": "title",
+      "text": "联系我们"
+    },
+    {
+      "t": "text",
+      "text": "地址：四川省成都市双流县九江镇电话：028－85775467传真：028－85757004Email: lb2002_lb@163.com"
+    },
+    {
+      "t": "link",
+      "url": "/",
+      "text": "more"
+    }
+  ],
+  "footer": ""
+}
