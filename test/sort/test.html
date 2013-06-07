@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<script>
+  var arr = [];
+  arr.push({ left: 78, top: 9 });
+  arr.push({ left: 644, top: 8 });
+  arr.push({ left: 777, top: 45 });
+  arr.push({ left: 150, top: 84 });
+  arr.push({ left: 72, top: 124 });
+  arr.push({ left: 71, top: 346 });
+  arr.push({ left: 293, top: 345 });
+  arr.push({ left: 692, top: 345 });
+  arr.push({ left: 90, top: 499 });
+  arr.push({ left: 628, top: 361 });
+  arr.push({ left: 892, top: 360 });
+  arr.push({ left: 70, top: 553 });
+  arr.push({ left: 892, top: 571 });
+  arr.push({ left: 82, top: 808 });
+  arr.push({ left: 788, top: 815 });
+  arr.push({ left: 322, top: 826 });
+  arr.push({ left: 362, top: 824 });
+
+  var sort = function(arr, offset) {
+    if(!arr || !offset) {
+      return false;
+    }
+
+    var result = [];
+
+    // y axis sort
+    arr.sort(function(a, b){
+      return a.top - b.top;
+    });
+    console.log(arr);
+
+    // x axis sort
+    while(arr.length > 0) {
+      var tempArr = [];
+      tempArr.push(arr.shift());
+      while(arr.length > 0
+              && Math.abs(tempArr[tempArr.length - 1].top - arr[0].top) <= offset) {
+        tempArr.push(arr.shift());
+      }
+      tempArr.sort(function(a, b) {
+        return a.left - b.left;
+      });
+      result = result.concat(tempArr);
+    }
+
+    return result;
+  };
+
+  console.log(sort(arr, 5));
+</script>
+</body>
+</html>
