@@ -4,27 +4,69 @@
   <title></title>
   <link rel="stylesheet" href="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.css" />
   <script src="jquery-2.0.2.min.js"></script>
-  <script src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.js"></script>
   <script src="handlebars-1.0.0.js"></script>
+  <base href="" />
 </head>
 <body>
 <div data-role="page">
   <!-- Header -->
-  <div data-theme="c" data-role="header">
-    {{> header}}
-  </div>
+  <div id="header" data-theme="c" data-role="header"></div>
   <!-- Content -->
-  <div data-role="content">
-    {{> content}}
-  </div>
+  <div id="content" data-role="content"></div>
   <!-- Footer -->
-  <div data-theme="c" data-role="footer">
-    {{> footer}}
-  </div>
+  <div id="footer" data-theme="a" data-role="footer"></div>
 </div>
+
+<!-- Header templates -->
+<script id="header-template" type="text/x-handlebars-template">
+  <h3>
+    {{#if text}}
+    {{text}}
+    {{/if}}
+    {{#if src}}
+    <img src='{{src}}'>
+    {{/if}}
+  </h3>
+</script>
+<!-- Footer templates -->
+<script id="footer-link-template" type="text/x-handlebars-template">
+  <h4>
+    <a href="{{url}}" data-transition="fade">
+      {{text}}
+    </a>
+  </h4>
+</script>
+<script id="footer-title-template" type="text/x-handlebars-template">
+  <h4>
+    {{text}}
+  </h4>
+</script>
+<script id="footer-text-template" type="text/x-handlebars-template">
+  <h4>
+    {{text}}
+  </h4>
+</script>
+<script id="footer-image-template" type="text/x-handlebars-template">
+  <div style="position: relative;text-align: center; padding: 0; margin: 10px;">
+    {{#if url}}
+    <a href='{{url}}' target='{{target}}'>
+      {{/if}}
+      <img src="{{src}}" alt="image" style="max-width: 80%;">
+      {{#if url}}
+    </a>
+    {{/if}}
+  </div>
+</script>
+<!-- Content templates -->
 <script id="image-template" type="text/x-handlebars-template">
   <div style="position: relative;text-align: center; padding: 0; margin: 10px;">
+    {{#if url}}
+    <a href='{{url}}' target='{{target}}'>
+    {{/if}}
     <img src="{{src}}" alt="image" style="max-width: 80%;">
+    {{#if url}}
+    </a>
+    {{/if}}
   </div>
 </script>
 <script id="navbar-template" type="text/x-handlebars-template">
@@ -71,7 +113,7 @@
 </script>
 <script id="text-template" type="text/x-handlebars-template">
   <p>
-    {{text}}
+    {{{text}}}
   </p>
 </script>
 <script id="link-template" type="text/x-handlebars-template">
@@ -83,124 +125,73 @@
 </script>
 <script>
   $(document).ready(function () {
-    /// helpers
-    /*
-    * @param html: the string of html template
-    * @param data: the json object of data
-    * @return: the compiled string
-    * */
-    var compile = function(html, data) {
-      var source = $("#imagelist-template").html();
-      var template = Handlebars.compile(source);
-      return template(data);
-    };
-
+    var imageTpl = Handlebars.compile($("#image-template").html());
+    var titleTpl = Handlebars.compile($("#title-template").html());
+    var textTpl = Handlebars.compile($("#text-template").html());
+    var navbarTpl = Handlebars.compile($("#navbar-template").html());
+    var linkTpl = Handlebars.compile($("#link-template").html());
+    var headerTpl = Handlebars.compile($("#header-template").html());
+    var footerImageTpl = Handlebars.compile($("#footer-image-template").html());
+    var footerTitleTpl = Handlebars.compile($("#footer-title-template").html());
+    var footerTextTpl = Handlebars.compile($("#footer-text-template").html());
+    var footerLinkTpl = Handlebars.compile($("#footer-link-template").html());
 
     /// init Data
-    var contentData = {
-      "domain": "www.gzj168.com",
-      "url": "/",             // all url is relative, so path = domain + url
-      "title": "成都干燥剂",   // from document title
-      "logo": {
-        "url": "",
-        "src": "/_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
-      },
-      "header": {
-        "t": "text",            // text || image
-        "text": "成都干燥剂"     // text content || image src
-      },
-      "content": [
-        {
-          "t": "navbar",
-          "level1": [
-            {
-              "t": "navbtn1",
-              "url": "/",
-              "text": "首页"
-            },
-            {
-              "t": "navbtn1",
-              "url": "/",
-              "text": "公司简介",
-              "level2": [
-                {
-                  "t": "navbtn2",
-                  "url": "/",
-                  "text": "2nd level btn 1"
-                },
-                {
-                  "t": "navbtn2",
-                  "url": "/",
-                  "text": "2nd level btn 2"
-                }
-              ]
-            },
-            {
-              "t": "navbtn1",
-              "url": "/",
-              "text": "产品展示"
-            },
-            {
-              "t": "navbtn1",
-              "url": "/",
-              "text": "行业知识"
-            },
-            {
-              "t": "navbtn1",
-              "url": "/",
-              "text": "在线留言"
-            },
-            {
-              "t": "navbtn1",
-              "url": "/",
-              "text": "联系我们"
-            }
-          ]
-        },
-        {
-          "t": "imagelist",
-          "items": [
-            {
-              "t": "image",
-              "url": "",
-              "src": "/_c_nqSliEQrt5fkvL3WdujNdDwr1sLKJIZHWWrUxm3tqNgf9Vw3qCHyuA==.png"
-            },
-            {
-              "t": "image",
-              "url": "",
-              "src": "/_c_tkuZAgRfDuVKp5dnEzwknqdRWNugl8qGzAGn5T0UtYYkVUo1XfHZlw==.png"
-            },
-            {
-              "t": "image",
-              "url": "",
-              "src": "/_c_j6SV5Hs8GAZjfdT1tdCSr7MXXlMLD69KOwkWdUbo-x1jD5jrMt6f3A==.png"
-            }
-          ]
-        },
-        {
-          "t": "title",
-          "text": "联系我们"
-        },
-        {
-          "t": "text",
-          "text": "地址：四川省成都市双流县九江镇电话：028－85775467传真：028－85757004Email: lb2002_lb@163.com"
-        },
-        {
-          "t": "link",
-          "url": "/",
-          "text": "more"
-        }
-      ],
-      "footer": ""
-    };
-    var styleData = {};
+    var contentData = '{"host":"www.gzj168.com","url":"/","title":"成都干燥剂，干燥剂，四川干燥剂，袋装干燥剂，绵阳干燥剂，德阳干燥剂，小包干燥剂，防潮珠","logo":{"src":"_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"},"version":"20130608-1","content":[{"t":"image","url":"","src":"_c_fCPGGoytGOCo2OmfUxkt2x6jLBe8EXUB5ilYWySBjuOxyxE1d2ZygZZjzWZSj3-feeIjtwQlouDNAb8gX0MM38xx49v7SbpL.jpg","target":""},{"t":"text","text":"今天是2013年6月8日 星期六"},{"t":"navbar","level1":[{"t":"navbtn1","url":"~/admin/design.aspx?docuid=1479","text":"首页"},{"t":"navbtn1","url":"_d270491683.htm","text":"公司简介"},{"t":"navbtn1","url":"_d270491685.htm","text":"产品展示"},{"t":"navbtn1","url":"_d270491688.htm","text":"行业知识"},{"t":"navbtn1","url":"_d270491694.htm","text":"在线留言"},{"t":"navbtn1","url":"_d269029703.htm","text":"联系我们"}]},{"t":"image","src":"http://www.gzj168.com/_c_tkuZAgRfDuVKp5dnEzwknhyaRnHCujMDhHiHlxd0SyOPehHBGgEDzg==.png"},{"t":"image","src":"http://www.gzj168.com/_c_j6SV5Hs8GAZjfdT1tdCSr2EHt4i0JJHO34lnbI07nCeGKHPLgbbyag==.png"},{"t":"image","src":"http://www.gzj168.com/_c_nqSliEQrt5fkvL3WdujNdNzncmnOoUVxcfRzqf6zUgxfPjDhHjhgEA==.png"},{"t":"title","text":"联系我们"},{"t":"text","text":"地址：四川省成都市双流县九江镇<br>电话：028－85775467<br>传真：028－85757004<br>Email:"},{"t":"link","url":"mailto:lb2002_lb@163.com","text":"lb2002_lb@163.com","target":""},{"t":"title","text":"公司简介"},{"t":"image","src":"http://www.gzj168.com/_m_gw_yqnvZxsIrrq9KAC-7TKGEHzVOYeRnF4OON_Vz4sX29rbis4FzsXy-M7CeX1CYih_7QNWROxIjfGBvaS61vezOAgvJXFfl5hrV-Md1knfKzt5IZL8jmrvBFgEdUSvXJkY.jpg"},{"t":"text","text":"本公司是专业生产高效干燥剂（防潮珠）的企业，本企业分建于1996年，拥有先进的生产设备，不断地为客户提供优质产品。主要产品为：各类硅胶干燥剂、防霉剂、防霉片等。本产品具有无毒、无味、无污染、吸附性强的特点，广泛用于电子电器、摄影摄..."},{"t":"title","text":"行业知识"},{"t":"link","url":"/_d275970539.htm","text":"硅胶干燥剂的七大用途：","target":"_self"},{"t":"link","url":"/_d270700366.htm","text":"硅胶的重复使用","target":"_self"},{"t":"link","url":"/_d270528209.htm","text":"硅胶的特点及安全性能","target":"_self"},{"t":"link","url":"/_d270507613.htm","text":"怎样选择干燥剂？","target":"_self"},{"t":"link","url":"/_d270507610.htm","text":"一单位（unit）干燥剂指什么？","target":"_self"},{"t":"link","url":"/_d270491931.htm","text":"什么是干燥剂，他的吸湿原理是什...","target":"_self"},{"t":"image","url":"/_d270491683.htm","src":"_c_LTM3PW5JUAAB0vC0NOienvEkFMXfDxDBwZ-3lIDfOYB3AcmPZcVTGT-C4CmtLOsY4d2RSglVBijRTwXk_NeyGmHbpGzDIdlM.jpg","target":"_self"},{"t":"image","url":"/_d270491688.htm","src":"_c_LTM3PW5JUAAB0vC0NOienvEkFMXfDxDBwZ-3lIDfOYB3AcmPZcVTGT-C4CmtLOsY4d2RSglVBigTyLsGmwc33iFq5qmi98a4.jpg","target":"_self"},{"t":"image","url":"http://wpa.qq.com/msgrd?v=3&uin=43501906&site=成都干燥剂，干燥剂，四川干燥剂，袋装干燥剂，绵阳干燥剂，德阳干燥剂，小包干燥剂，防潮珠&menu=yes","src":"http://wpa.qq.com/pa?p=1:43501906:13","target":"blank"},{"t":"title","text":"产品展示"},{"t":"image","url":"/_d275970498.htm","src":"_c_YVDN7GjYGjqGmwVNvtr2Vufu9iAhVhkalEbdO98aBrCOQaU0mwPfQhLxxP2OAzvxI8vcHCtE1789ikXy4AoAaLYu_baZZg41.jpg","target":"_self"},{"t":"link","url":"/_d275970498.htm","text":"厂价批发硅胶原料，量大从优！！！！！！！请联系","target":"_self"},{"t":"image","url":"/_d271404782.htm","src":"_c_Xq5sZam_IqrOqF0flG9JRLULoZBDfCKUFRyZ3HXzaiQjCrVaMqyPMw4RrJzg-lA5VOwUD5rP0uI3DQF7EQ6zonjYiBWli6dW.jpg","target":"_self"},{"t":"link","url":"/_d271404782.htm","text":"500克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271015078.htm","src":"_c_SDh5gZHQKBj8231ekLWXK61Y3XAzAwwcMaNmghTPe_8NLf4yzc6ov_QASgQug5Pa.JPG","target":"_self"},{"t":"link","url":"/_d271015078.htm","text":"400克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009470.htm","src":"_c_5VhBXikQwjoa9j5QmsD4Imz6HZkG5qW9QcTArAxY1xFc6Eps2wyfhoogD9YHXHL2.JPG","target":"_self"},{"t":"link","url":"/_d271009470.htm","text":"30克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009559.htm","src":"_c_6OaBDHgpsBS8tVbLP-6WXcQVMvzReRmMgblDdkESfhWbUThDrn4epwvMJ3E5uaf8.JPG","target":"_self"},{"t":"link","url":"/_d271009559.htm","text":"300克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009533.htm","src":"_c_V_sHhduJO4iWs4kmQyYBWLd0-X_yuX3mXM-nJ0ArN8-Blm2Y-mzsDLzwpo83AGpE.JPG","target":"_self"},{"t":"link","url":"/_d271009533.htm","text":"150克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009485.htm","src":"_c_Hp8bNt1XEuYh0Hha98Pc3QdMRkg1_McKZyDAVo8mGq6dhDpPXCX_niKHml7JlvX-.JPG","target":"_self"},{"t":"link","url":"/_d271009485.htm","text":"40克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d270789078.htm","src":"_c_gN05fu0s6GDSp_yZYv2NOHdtFfd1bpKw57rBWpKnzaIBHrHZ4JPUzM7Hb8nVeGu50pbyg4HE09e8gWKhBrTTSxvKEbbmMh3C.jpg","target":"_self"},{"t":"link","url":"/_d270789078.htm","text":"500硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d270789063.htm","src":"_c_kqcT1yusbVLqMeEDyIKmsLc9G3_HPk5c4UX_gwGFsXFiSpC0USe7DUbjiwmkQ1Sj.JPG","target":"_self"},{"t":"link","url":"/_d270789063.htm","text":"200g硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d275970498.htm","src":"_c_YVDN7GjYGjqGmwVNvtr2Vufu9iAhVhkalEbdO98aBrCOQaU0mwPfQhLxxP2OAzvxI8vcHCtE1789ikXy4AoAaLYu_baZZg41.jpg","target":"_self"},{"t":"link","url":"/_d275970498.htm","text":"厂价批发硅胶原料，量大从优！！！！！！！请联系","target":"_self"},{"t":"image","url":"/_d271404782.htm","src":"_c_Xq5sZam_IqrOqF0flG9JRLULoZBDfCKUFRyZ3HXzaiQjCrVaMqyPMw4RrJzg-lA5VOwUD5rP0uI3DQF7EQ6zonjYiBWli6dW.jpg","target":"_self"},{"t":"link","url":"/_d271404782.htm","text":"500克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271015078.htm","src":"_c_SDh5gZHQKBj8231ekLWXK61Y3XAzAwwcMaNmghTPe_8NLf4yzc6ov_QASgQug5Pa.JPG","target":"_self"},{"t":"link","url":"/_d271015078.htm","text":"400克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009470.htm","src":"_c_5VhBXikQwjoa9j5QmsD4Imz6HZkG5qW9QcTArAxY1xFc6Eps2wyfhoogD9YHXHL2.JPG","target":"_self"},{"t":"link","url":"/_d271009470.htm","text":"30克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009559.htm","src":"_c_6OaBDHgpsBS8tVbLP-6WXcQVMvzReRmMgblDdkESfhWbUThDrn4epwvMJ3E5uaf8.JPG","target":"_self"},{"t":"link","url":"/_d271009559.htm","text":"300克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009533.htm","src":"_c_V_sHhduJO4iWs4kmQyYBWLd0-X_yuX3mXM-nJ0ArN8-Blm2Y-mzsDLzwpo83AGpE.JPG","target":"_self"},{"t":"link","url":"/_d271009533.htm","text":"150克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d271009485.htm","src":"_c_Hp8bNt1XEuYh0Hha98Pc3QdMRkg1_McKZyDAVo8mGq6dhDpPXCX_niKHml7JlvX-.JPG","target":"_self"},{"t":"link","url":"/_d271009485.htm","text":"40克硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d270789078.htm","src":"_c_gN05fu0s6GDSp_yZYv2NOHdtFfd1bpKw57rBWpKnzaIBHrHZ4JPUzM7Hb8nVeGu50pbyg4HE09e8gWKhBrTTSxvKEbbmMh3C.jpg","target":"_self"},{"t":"link","url":"/_d270789078.htm","text":"500硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d270789063.htm","src":"_c_kqcT1yusbVLqMeEDyIKmsLc9G3_HPk5c4UX_gwGFsXFiSpC0USe7DUbjiwmkQ1Sj.JPG","target":"_self"},{"t":"link","url":"/_d270789063.htm","text":"200g硅胶干燥剂","target":"_self"},{"t":"image","url":"/_d270491685.htm","src":"_c_LTM3PW5JUAAB0vC0NOienvEkFMXfDxDBwZ-3lIDfOYB3AcmPZcVTGT-C4CmtLOsY4d2RSglVBihp57SIApuHpUIHOe6vuqsN.jpg","target":"_self"},{"t":"image","url":"http://www.net.cn/static/solutions/tailor.asp","src":"_c_OUi84q7QGrsZ7eD8THnUmz5Jt-FRlUG2541FRPx7ptGUfSGP9Kygh2zA80nYZyigV05JvvzhReR-DAC18L-dvIcnOVVogkU4.gif","target":"_blank"},{"t":"title","text":"您是第"},{"t":"text","text":"位访客"}],"footer":[{"t":"text","text":"©2010"},{"t":"title","text":"成都明友化工有限公司"},{"t":"text","text":"版权所有    地址：四川省成都市双流县九江镇   电话：028－85775467  <br>"},{"t":"link","url":"http://www.miibeian.gov.cn/","text":"蜀ICP备10025538号","target":"_blank"},{"t":"text","text":"技术支持："},{"t":"link","url":"http://www.net.cn/static/solutions/tailor.asp","text":"中国万网","target":"_blank"}],"header":{"t":"image","src":"_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"}}';
+    var styleData = '';
     var contentObj = JSON.parse(contentData);
-    var styleObj = JSON.parse(styleData);
+    //var styleObj = JSON.parse(styleData);
     /// header
+    var headerHtml = headerTpl(contentObj.header);
     /// content
-
+    var contentHtml = '';
+    while(contentObj.content.length > 0) {
+      var contentBlock = contentObj.content.shift();
+      switch(contentBlock.t) {
+        case 'image':
+          contentHtml += imageTpl(contentBlock);
+          break;
+        case 'title':
+          contentHtml += titleTpl(contentBlock);
+          break;
+        case 'text':
+          contentHtml += textTpl(contentBlock);
+          break;
+        case 'link':
+          contentHtml += linkTpl(contentBlock);
+          break;
+        case 'navbar':
+          contentHtml += navbarTpl(contentBlock);
+          break;
+      }
+    }
     /// footer
+    var footerHtml = '';
+    while(contentObj.footer.length > 0) {
+      var footerBlock = contentObj.footer.shift();
+      switch(footerBlock.t) {
+        case 'image':
+          footerHtml += footerImageTpl(footerBlock);
+          break;
+        case 'title':
+          footerHtml += footerTitleTpl(footerBlock);
+          break;
+        case 'text':
+          footerHtml += footerTextTpl(footerBlock);
+          break;
+        case 'link':
+          footerHtml += footerLinkTpl(footerBlock);
+          break;
+      }
+    }
+
+    /// render
+    $('base').attr('href', 'http://' + contentObj.host);
+    $('#header').html(headerHtml);
+    $('#content').html(contentHtml);
+    $('#footer').html(footerHtml);
   });
 </script>
+<script src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.js"></script>
 </body>
 </html>

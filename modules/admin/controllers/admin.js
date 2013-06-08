@@ -17,8 +17,24 @@ exports.parse = function(req, res, next) {
   }
   console.log('urlStr:', urlStr);
 
-
-
+  var phantom = spawn(config.phantom.command, [__dirname + '/run-parse.js', urlStr, config.phantom.path, config.phantom.viewport]);
+  phantom.stderr.on('data', function (data) {
+    console.log('phantomjs error: ' + data);
+  });
+  phantom.stdout.on('data', function (data) {
+    data = String(data);
+    if(data.indexOf('result:') == 0) {
+      console.log('result:', JSON.parse(data.substr(7)));
+      res.send(200, data.substr(7));
+    }
+    else {
+      console.log('phantomjs output: ' + data);
+    }
+  });
+  phantom.on('exit', function (code) {
+    console.log('phantomjs exit');
+    //res.send(200, 'Done');
+  });
 };
 
 exports.find = function(req, res, next) {
