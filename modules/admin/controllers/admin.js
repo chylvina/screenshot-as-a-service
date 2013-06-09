@@ -24,8 +24,10 @@ exports.parse = function(req, res, next) {
   phantom.stdout.on('data', function (data) {
     data = String(data);
     if(data.indexOf('result:') == 0) {
-      console.log('result:', JSON.parse(data.substr(7)));
-      res.send(200, data.substr(7));
+      //console.log('result:', JSON.parse(data.substr(7)));
+      return res.render('index', {
+        contentData: data.substr(7)//.replace(/\r/g, '').replace(/\n/g, '')
+      });
     }
     else {
       console.log('phantomjs output: ' + data);

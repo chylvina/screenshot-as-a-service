@@ -13,6 +13,8 @@
     "mongojs": "latest",
     "yaml": "latest",
     "underscore": "latest",
-    "xss": "latest"
+    "xss": "latest",
+    "hbs": "latest",
+    "lactate": "latest"
   }
 }

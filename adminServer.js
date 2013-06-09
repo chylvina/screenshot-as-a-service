@@ -7,11 +7,18 @@
 
 var config = require('config'),
     express = require('express'),
+    hbs = require('./lib/hbsExt'),
+    cacher = require('./lib/cacher'),
     app = express();
 
 /// ------ all environments
+app.set('view engine', 'hbs');                  // hbs view engine
+app.set('views', __dirname + '/views');     // set views for error and 404 pages
+app.use(cacher.cache(__dirname + '/views', '/views', app.get('env')));
 app.use(express.bodyParser());
 console.log(app.get('env'));
+
+
 /// ------ development, staging, etc
 if ('production' != app.get('env')) {
   app.use(express.logger('dev'));

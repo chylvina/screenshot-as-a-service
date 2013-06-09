@@ -376,7 +376,7 @@ var mynet_parse = function () {
   // todo: escape unexpeced chars such as ' " etc
   var urlStr = window.location.href;
   // domain
-  result.domain = urlStr.replace(/^.*\:\/\//gi, '').replace(/\/.*$/gi, '') || '';
+  result.host = urlStr.replace(/^.*\:\/\//gi, '').replace(/\/.*$/gi, '') || '';
   // url
   result.url = urlStr.replace(/^.*\:\/\//gi, '').replace(result.domain, '') || '/';
   // title
