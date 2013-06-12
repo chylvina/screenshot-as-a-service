@@ -5,6 +5,17 @@
  * Description:
  */
 
+var UglifyJS = require("uglify-js");
+
+var res = UglifyJS.minify([ "./modules/admin/controllers/inject-src/jquery-1.10.0.min.js",
+                  "./modules/admin/controllers/inject-src/parse.js" ], {
+  //output: "./modules/admin/controllers/compiled.js"
+});
+
+console.log(res);
+
+return;
+
 var config = require('config'),
     express = require('express'),
     hbs = require('./lib/hbsExt'),

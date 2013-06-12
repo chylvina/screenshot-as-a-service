@@ -15,6 +15,7 @@
     "underscore": "latest",
     "xss": "latest",
     "hbs": "latest",
+    "uglify-js": "latest",
     "lactate": "latest"
   }
 }
