@@ -1,0 +1,22 @@
+<ul data-role="listview" data-divider-theme="c" data-inset="true">
+	{{#level1}}
+    <!-- nav level 1 -->
+    <li data-theme="b">
+			{{#if url}}
+      <a href="{{url}}" data-transition="slide">
+			{{/if}}
+			{{text}}
+			{{#if url}}
+      </a>
+			{{/if}}
+    </li>
+		{{#level2}}
+      <!-- nav level 2 -->
+      <li data-theme="d">
+        <a href="{{url}}" data-transition="slide">
+					{{text}}
+        </a>
+      </li>
+		{{/level2}}
+	{{/level1}}
+</ul>

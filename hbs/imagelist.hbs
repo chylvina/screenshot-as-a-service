@@ -1,0 +1,11 @@
+{{#items}}
+	{{#if url}}
+    <a href="{{url}}">
+	{{/if}}
+    <div style="position: relative;text-align: center; padding: 0; margin: 10px;">
+      <img src="{{src}}" alt="image" style="max-width: 80%;">
+    </div>
+	{{#if url}}
+    </a>
+	{{/if}}
+{{/items}}
