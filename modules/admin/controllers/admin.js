@@ -6,7 +6,7 @@
  */
 
 var request = require('request'),
-    utils = require('util'),
+    utils = require('../../../lib/utils'),
     uuid = require('node-uuid'),
     UglifyJS = require("uglify-js"),
     fs = require('fs'),
@@ -26,15 +26,15 @@ exports.parse = function(req, res, next) {
     console.log('phantomjs error: ' + data);
   });
   phantom.stdout.on('data', function (data) {
-    data = String(data).trim;   // 这是 console.log 出来的 \n
+    data = String(data).trim();   // 这是 console.log 出来的 \n
     if(data.indexOf('result:') == 0) {
       //console.log('result:', JSON.parse(data.substr(7)));
-      /*return res.render('index', {
-        contentData: data.substr(7)//.replace(/\r/g, '').replace(/\n/g, '')
-      });*/
+      return res.render('index', {
+        contentData: utils.escape(data.substr(7))//.replace(/\r/g, '').replace(/\n/g, '')
+      });
 
       //
-      var uid = uuid.v1();
+      /*var uid = uuid.v1();
       fs.writeFileSync("./tmp/" + uid, "var contentData = '" + data.substr(7) + "';");
 
       //
@@ -54,7 +54,7 @@ exports.parse = function(req, res, next) {
 
       fs.writeFileSync("./tmp/minified.js", minified.code);
 
-      return res.send(200, 'Done');
+      return res.send(200, 'Done');*/
     }
     else {
       console.log('phantomjs output: ' + data);
