@@ -25,7 +25,7 @@ var transform = function(req, res, next) {
 
   phantomservice.run(urlStr, 'inject.js', function(err, result) {
     if(err) {
-
+      res.send(500, err);
     }
 
     var filename = utils.md5(urlStr);
