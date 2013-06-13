@@ -1,0 +1,3 @@
+phantom:
+  path: 'D:/workspace/screenshot-as-a-service/test/screenshot/noimage/'        # where the screenshot files are stored
+  concurrent: 25

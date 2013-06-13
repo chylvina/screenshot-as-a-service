@@ -31,7 +31,7 @@ var PhantomService = function(config) {
     self.isStopping = true;
     self.killService();
   });
-}
+};
 
 PhantomService.prototype.startService = function() {
   var phantom = spawn(this.config.command, [__dirname + '/run.js', this.config.path, this.config.port, this.config.viewport]);
@@ -53,7 +53,7 @@ PhantomService.prototype.startService = function() {
   this.checkHealthIntervalId = setInterval(this.checkHealth.bind(this), 1000);
   console.log('Phantomjs internal server listening on port ' + this.config.port);
   return this;
-}
+};
 
 PhantomService.prototype.killService = function() {
   if (this.phantom) {
@@ -69,7 +69,7 @@ PhantomService.prototype.restartService = function() {
     this.killService();
     this.startService();
   }
-}
+};
 
 PhantomService.prototype.pingService = function() {
   if (!this.phantom) {
@@ -80,18 +80,18 @@ PhantomService.prototype.pingService = function() {
     if (error || response.statusCode != 200) return;
     self.lastHealthCheckDate = Date.now();
   });
-}
+};
 
 PhantomService.prototype.checkHealth = function() {
   if (Date.now() - this.lastHealthCheckDate > this.sleepTime) {
     console.log('Phantomjs process is sleeping. Restarting.');
     this.restartService();
   }
-}
+};
 
 PhantomService.prototype.getPort = function() {
   return this.config.port;
-}
+};
 
 PhantomService.prototype.getPath = function() {
   return this.config.path;

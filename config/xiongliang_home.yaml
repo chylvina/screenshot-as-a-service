@@ -1,0 +1,3 @@
+phantom:
+  path: 'F:/workspace/screenshot-as-a-service/test/screenshot/temp/'        # where the screenshot files are stored
+  concurrent: 25

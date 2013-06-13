@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.css"/>
+  <script src="jquery-2.0.2.min.js"></script>
+  <script src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.js"></script>
+  <script src="handlebars-1.0.0.js"></script>
+</head>
+<body>
+<div data-role="page">
+  <!-- Header -->
+  <div data-theme="c" data-role="header">
+
+  </div>
+  <!-- Content -->
+  <div id="content" data-role="content">
+
+  </div>
+  <!-- Footer -->
+  <div data-theme="c" data-role="footer">
+
+  </div>
+</div>
+<script id="title-template" type="text/x-handlebars-template">
+  <h2>{{text}}</h2>
+</script>
+<script>
+  /*var source   = $("#image-template").html();
+   var template = Handlebars.compile(source);
+   var data = {
+   "t": "image",
+   "url": "",
+   "src": "http://www.gzj168.com/_c_nqSliEQrt5fkvL3WdujNdDwr1sLKJIZHWWrUxm3tqNgf9Vw3qCHyuA==.png"
+   };
+   $("#content-placeholder").html(template(data));*/
+
+  var source = $("#imagelist-template").html();
+  var template = Handlebars.compile(source);
+  var data = {
+    "t": "imagelist",
+    "items": [
+      {
+        "t": "image",
+        "url": "",
+        "src": "http://www.gzj168.com/_c_nqSliEQrt5fkvL3WdujNdDwr1sLKJIZHWWrUxm3tqNgf9Vw3qCHyuA==.png"
+      },
+      {
+        "t": "image",
+        "url": "",
+        "src": "http://www.gzj168.com/_c_tkuZAgRfDuVKp5dnEzwknqdRWNugl8qGzAGn5T0UtYYkVUo1XfHZlw==.png"
+      },
+      {
+        "t": "image",
+        "url": "",
+        "src": "http://www.gzj168.com/_c_j6SV5Hs8GAZjfdT1tdCSr7MXXlMLD69KOwkWdUbo-x1jD5jrMt6f3A==.png"
+      }
+    ]
+  };
+  $("#content").html(template(data));
+</script>
+</body>
+</html>
