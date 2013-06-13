@@ -6,6 +6,10 @@
  */
 
 var request = require('request'),
+    utils = require('util'),
+    uuid = require('node-uuid'),
+    UglifyJS = require("uglify-js"),
+    fs = require('fs'),
     config = require('config');
 
 var spawn = require('child_process').spawn;
@@ -22,12 +26,35 @@ exports.parse = function(req, res, next) {
     console.log('phantomjs error: ' + data);
   });
   phantom.stdout.on('data', function (data) {
-    data = String(data);
+    data = String(data).trim;   // 这是 console.log 出来的 \n
     if(data.indexOf('result:') == 0) {
       //console.log('result:', JSON.parse(data.substr(7)));
-      return res.render('index', {
+      /*return res.render('index', {
         contentData: data.substr(7)//.replace(/\r/g, '').replace(/\n/g, '')
-      });
+      });*/
+
+      //
+      var uid = uuid.v1();
+      fs.writeFileSync("./tmp/" + uid, "var contentData = '" + data.substr(7) + "';");
+
+      //
+      var minified = UglifyJS.minify([ "./tpls/title.js",
+        "./tpls/text.js",
+        "./tpls/navbar.js",
+        "./tpls/link.js",
+        "./tpls/imagelist.js",
+        "./tpls/image.js",
+        "./tpls/header.js",
+        "./tpls/footer-title.js",
+        "./tpls/footer-text.js",
+        "./tpls/footer-link.js",
+        "./tpls/footer-image.js",
+        "./tmp/" + uid
+      ]);
+
+      fs.writeFileSync("./tmp/minified.js", minified.code);
+
+      return res.send(200, 'Done');
     }
     else {
       console.log('phantomjs output: ' + data);

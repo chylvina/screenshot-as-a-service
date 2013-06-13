@@ -5,16 +5,19 @@
  * Description:
  */
 
-var UglifyJS = require("uglify-js");
+var UglifyJS = require("uglify-js"),
+    fs = require('fs');
 
 var res = UglifyJS.minify([ "./modules/admin/controllers/inject-src/jquery-1.10.0.min.js",
-                  "./modules/admin/controllers/inject-src/parse.js" ], {
-  //output: "./modules/admin/controllers/compiled.js"
+                  "./modules/admin/controllers/inject-src/parse.js" ]);
+
+fs.writeFile("./modules/admin/controllers/inject.js", res.code, function(err) {
+  if(err) {
+    console.log(err);
+  } else {
+    console.log("inject.js updated!");
+  }
 });
-
-console.log(res);
-
-return;
 
 var config = require('config'),
     express = require('express'),
