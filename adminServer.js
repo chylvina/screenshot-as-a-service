@@ -30,7 +30,7 @@ app.set('view engine', 'hbs');                  // hbs view engine
 app.set('views', __dirname + '/views');     // set views for error and 404 pages
 app.use(cacher.cache(__dirname + '/views', '/views', app.get('env')));
 app.use(express.bodyParser());
-console.log(app.get('env'));
+console.log('NODE EVN:', app.get('env'));
 
 
 /// ------ development, staging, etc
@@ -71,4 +71,4 @@ app.use(function (err, req, res, next) {  // error handler
 });
 
 app.listen(config.adminServer.port);
-console.log('Phantomservice listening on port ' + config.adminServer.port);
+console.log('Application listening on port ' + config.adminServer.port);

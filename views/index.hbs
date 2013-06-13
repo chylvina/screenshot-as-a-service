@@ -32,7 +32,6 @@
 <script src="/views/title.js"></script>
 <script>
   var contentData = '{{{contentData}}}';
-  contentData = contentData.replace(/&quot;/gmi, '"').replace(/[\r\n]/gm, '');
 	console.log(contentData);
 </script>
 <script>
@@ -49,7 +48,7 @@
     var footerLinkTpl = Handlebars.templates['footer-link.hbs'];
 
     /// init Data
-    //var contentData = '';
+    contentData = contentData.replace(/&quot;/gmi, '"').replace(/[\r\n]/gm, '');
     var styleData = '';
     var contentObj = JSON.parse(contentData);
     //var styleObj = JSON.parse(styleData);
