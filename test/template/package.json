@@ -1,0 +1,71 @@
+{
+  "name": "template-1",
+  "description": "app风格模板",
+  "version": "0.0.1",
+  "author": {
+    "name": "Xiong Liang",
+    "email": "xiongliang.xl@alibaba-inc.com"
+  },
+  "contributors": [
+    {
+      "name": "TJ Holowaychuk",
+      "email": "tj@vision-media.ca"
+    },
+    {
+      "name": "Aaron Heckmann",
+      "email": "aaron.heckmann+github@gmail.com"
+    }
+  ],
+  "dependencies": {
+
+  },
+  "keywords": [
+    "color",
+    "layout",
+    "category"
+  ],
+  "bin": {
+    "express": "./bin/express"
+  },
+  "bugs": {
+    "url": "https://github.com/visionmedia/express/issues"
+  },
+  "_id": "express@3.2.6",
+  "_from": "express@3.x",
+  "theme": [
+    {
+      "name": "时尚黑",
+      "t": "a"
+    },
+    {
+      "name": "深海蓝",
+      "t": "b"
+    },
+    {
+      "name": "清新绿",
+      "t": "c"
+    }
+  ],
+  "layout":[
+    {
+      "name": "侧滑式",
+      "t": "nav-1"
+    },
+    {
+      "name": "下拉式",
+      "t": "nav-2"
+    },
+    {
+      "name": "大全式",
+      "t": "nav-3"
+    },
+    {
+      "name": "滑入导航",
+      "t": "nav-4"
+    },
+    {
+      "name": "浮出式",
+      "t": "nav-5"
+    }
+  ]
+}

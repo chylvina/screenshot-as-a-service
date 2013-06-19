@@ -1,0 +1,126 @@
+{
+  "host": "www.gzj168.com",
+  "url": "/",
+  "title": "成都干燥剂，干燥剂，四川干燥剂，袋装干燥剂，绵阳干燥剂，德阳干燥剂，小包干燥剂，防潮珠",
+  "logo": {
+    "src": "_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
+  },
+  "version": "20130608-1",
+  "header": {
+    "t": "image",
+    "src": "_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
+  },
+  "content": [
+    {
+      "t": "navbar-1",
+      "level1": [
+        {
+          "t": "navbtn-1",
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d270491683.htm",
+          "text": "公司简介"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d270491685.htm",
+          "text": "产品展示"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d270491688.htm",
+          "text": "行业知识"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d270491694.htm",
+          "text": "在线留言"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d269029703.htm",
+          "text": "联系我们"
+        }
+      ]
+    },
+    {
+      "t": "slide-1",
+      "list": [
+        {
+          "t": "slide-item",
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "t": "slide-item",
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "t": "slide-item",
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        }
+      ]
+    },
+    {
+      "t": "news-1",
+      "list": [
+        {
+          "t": "navbtn-1",
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d270491683.htm",
+          "text": "公司简介",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "t": "navbtn-1",
+          "url": "_d270491685.htm",
+          "text": "产品展示",
+          "thumb": "thumb.jpg"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "t": "text",
+      "text": "?2010"
+    },
+    {
+      "t": "title",
+      "text": "成都明友化工有限公司"
+    },
+    {
+      "t": "text",
+      "text": "版权所有    地址：四川省成都市双流县九江镇   电话：028－85775467  <br>"
+    },
+    {
+      "t": "link",
+      "url": "http://www.miibeian.gov.cn/",
+      "text": "蜀ICP备10025538号",
+      "target": "_blank"
+    },
+    {
+      "t": "text",
+      "text": "技术支持："
+    },
+    {
+      "t": "link",
+      "url": "http://www.net.cn/static/solutions/tailor.asp",
+      "text": "中国万网",
+      "target": "_blank"
+    }
+  ]
+}

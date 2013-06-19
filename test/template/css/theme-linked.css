@@ -1,0 +1,146 @@
+/*css reset*/
+html{color:#000;background:#fff;}
+body,p,ul,li,h1{padding:0;margin:0;font-family: STHeiti-Light,'Hiragino Sans GB','Microsoft Yahei',Arial;}
+img{border:0;}
+a{text-decoration:none;color:#000;}
+li{list-style:none;}
+
+
+
+.linked-title{
+  background:#232323;
+}
+.linked-title h1{
+  font-size:18px;
+  text-align:center;
+  padding:10px 0;
+  color:#ffffff;
+}
+.linked-title p{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:url(images/down1.png) 64px 16px no-repeat;
+  background-size:6px 4px;
+  padding-right:14px;
+  padding-left:6px;
+  color:#ffffff;
+  font-size:14px;
+  height:28px;
+  line-height:28px;
+
+}
+.linked-nav-outer{
+  position:relative;
+}
+.linked-nav-outer p{
+  position:absolute;
+  top:13px;
+  right:10px;
+  width:23px;
+  height:14px;
+  background:url(images/nav.png) 0 0 no-repeat;
+  background-size:23px 14px;
+}
+.linked-nav{
+  overflow:hidden;
+  background:#f0f0f0;
+  margin-bottom:8px;
+  height:38px;
+  padding-right:24px;
+  box-shadow:0 0 1px 1px rgba(0,0,0,0.3);
+}
+.linked-nav li{
+  float:left;
+  color:#000;
+  padding:0 12px;
+  margin-top:9px;
+  font-size:14px;
+  position:relative;
+}
+.linked-nav li::before{
+  position:absolute;
+  top:4px;
+  left:0;
+  content:"";
+  border-left:1px #bebebe solid;
+  height:14px;
+}
+.linked-nav li:first-child{
+  color:#999;
+  margin-left:2px;
+  position:static;
+}
+
+.linked-slider{
+  text-align:center;
+}
+.linked-slider img{
+  width:100%;
+  max-height:150px;
+}
+.duan_li{
+  padding:8px 0;
+  border-bottom:1px solid #dedede;
+  background:url('../images/pic1.jpg') 8px 8px no-repeat;
+  background-size: 72px 54px;
+  height:54px;
+  overflow:hidden;
+  width:100%;
+}
+.duan_li.duan_li2{
+  background:url('../images/pic2.jpg') 8px 8px no-repeat;
+  background-size: 72px 54px;
+}
+.duan_li.duan_li3{
+  background:url('../images/pic3.jpg') 8px 8px no-repeat;
+  background-size: 72px 54px;
+}
+.duan_con{
+  padding:0 8px 0 88px;
+  height:54px;
+}
+.duan_title{
+  font-size:16px;
+  line-height:20px;
+  color:#333333;
+  display:block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.duan_info{
+  font-size:14px;
+  color:#999999;
+  height:32px;
+}
+.duan_date{
+  float:right;
+  margin-top:-10px;
+  margin-right:12px;
+  color:#999999;
+  font-size:14px;
+}
+
+
+/*red*/
+.theme-red .linked-title{
+  background: #EB1625;
+}
+.theme-red .linked-nav li:first-child{
+  color:#EB1625;
+}
+/*green*/
+.theme-green .linked-title{
+  background: #5AC109;
+}
+.theme-green .linked-nav li:first-child{
+  color:#5AC109;
+}
+/*blue*/
+.theme-blue .linked-title{
+  background:#2C51B6;
+}
+.theme-blue .linked-nav li:first-child{
+  color: #2C51B6;
+}

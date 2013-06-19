@@ -6,6 +6,10 @@
     "src": "_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
   },
   "version": "20130608-1",
+  "header": {
+    "t": "image",
+    "src": "_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
+  },
   "content": [
     {
       "t": "image",
@@ -418,9 +422,5 @@
       "text": "中国万网",
       "target": "_blank"
     }
-  ],
-  "header": {
-    "t": "image",
-    "src": "_c_tvb_uJ62OrunVJ2k-0Lgi7fKfUYI9xF5dRTtnbz_qHlkuWr9HaiZ1RMmqFJ5XUg5ZKongpw4k-X_q7ztLoXN5YHGGDgC6eZA.jpg"
-  }
+  ]
 }

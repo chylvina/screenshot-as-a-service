@@ -1,0 +1,119 @@
+{
+  "host": "localhost",
+  "url": "/",
+  "title": "站长网站",
+  "logo": {
+    "src": ""
+  },
+  "version": "xxx",
+  "theme": "a",
+  "layout": "nav-1",
+  "header": {
+    "t": "text",
+    "src": "站长网站"
+  },
+  "content": [
+    {
+      "t": "nav",
+      "level1": [
+        {
+          "url": "/admin/design.aspx?docuid=1479",
+          "text": "首页"
+        },
+        {
+          "url": "_d270491683.htm",
+          "text": "公司简介"
+        },
+        {
+          "url": "_d270491685.htm",
+          "text": "产品展示"
+        },
+        {
+          "url": "_d270491688.htm",
+          "text": "行业知识"
+        },
+        {
+          "url": "_d270491694.htm",
+          "text": "在线留言"
+        },
+        {
+          "url": "_d269029703.htm",
+          "text": "联系我们"
+        }
+      ]
+    },
+    {
+      "t": "imagelist",
+      "list": [
+        {
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "url": "~/admin/design.aspx?docuid=1479",
+          "text": "首页",
+          "thumb": "thumb.jpg"
+        }
+      ]
+    },
+    {
+      "t": "newslist",
+      "list": [
+        {
+          "url": "~/admin/design.aspx?docuid=1479",
+          "title": "MWC缺乏看点:廉价手",
+          "text": "FirefoxOS的发布让廉价手机成为本届亮点。2013-1-30",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "title": "三星计划今年平板电脑",
+          "url": "_d270491683.htm",
+          "text": "虽然这一目标看似激进，但不能帮助三星超越苹果。",
+          "thumb": "thumb.jpg"
+        },
+        {
+          "title": "016移动设备出货量或达26亿台",
+          "url": "_d270491685.htm",
+          "text": "平板电脑将是出货量增长速度最快的移动设备。",
+          "thumb": "thumb.jpg"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "t": "text",
+      "text": "?2010"
+    },
+    {
+      "t": "title",
+      "text": "成都明友化工有限公司"
+    },
+    {
+      "t": "text",
+      "text": "版权所有    地址：四川省成都市双流县九江镇   电话：028－85775467  <br>"
+    },
+    {
+      "t": "link",
+      "url": "http://www.miibeian.gov.cn/",
+      "text": "蜀ICP备10025538号",
+      "target": "_blank"
+    },
+    {
+      "t": "text",
+      "text": "技术支持："
+    },
+    {
+      "t": "link",
+      "url": "http://www.net.cn/static/solutions/tailor.asp",
+      "text": "中国万网",
+      "target": "_blank"
+    }
+  ]
+}
